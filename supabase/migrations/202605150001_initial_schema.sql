@@ -85,6 +85,7 @@ create table public.notifications (
   body text not null,
   read_at timestamptz,
   sent_at timestamptz,
+  notification_date date not null default current_date,
   created_at timestamptz not null default now()
 );
 
@@ -94,7 +95,7 @@ create index tasks_project_idx on public.tasks(project_id);
 create index tasks_assignee_idx on public.tasks(assignee_id);
 create index tasks_due_idx on public.tasks(due_date) where status <> 'concluido';
 create unique index notifications_daily_unique_idx
-  on public.notifications (user_id, task_id, kind, (created_at::date));
+  on public.notifications (user_id, task_id, kind, notification_date);
 
 alter table public.profiles enable row level security;
 alter table public.clients enable row level security;
@@ -313,11 +314,8 @@ select cron.schedule(
   '0 9 * * *',
   $$
   select net.http_post(
-    url := current_setting('app.supabase_url') || '/functions/v1/notify-deadlines',
-    headers := jsonb_build_object(
-      'Authorization', 'Bearer ' || current_setting('app.service_role_key'),
-      'Content-Type', 'application/json'
-    ),
+    url := 'https://mvptsjsankxtaccppizm.supabase.co/functions/v1/notify-deadlines',
+    headers := jsonb_build_object('Content-Type', 'application/json'),
     body := '{}'::jsonb
   );
   $$

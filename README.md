@@ -15,17 +15,10 @@ Sem `.env`, app roda com dados demo.
 ## Supabase
 
 ```bash
-supabase link --project-ref PROJECT_ID
-supabase db push
-supabase functions deploy notify-deadlines
+supabase link --project-ref mvptsjsankxtaccppizm
+supabase db reset --linked
+supabase functions deploy notify-deadlines --no-verify-jwt
 supabase secrets set RESEND_API_KEY=... NOTIFICATION_FROM_EMAIL="TeamTasks <alerts@seudominio.com>"
-```
-
-No SQL editor, defina variáveis usadas pelo `pg_cron`:
-
-```sql
-alter database postgres set app.supabase_url = 'https://PROJECT_ID.supabase.co';
-alter database postgres set app.service_role_key = 'SERVICE_ROLE_KEY';
 ```
 
 ## GitHub Pages
