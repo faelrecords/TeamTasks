@@ -1,4 +1,4 @@
-import type { Attachment, Checklist, Client, Comment, Profile, Project, Task } from '../types/domain'
+import type { Attachment, Checklist, Client, Comment, KanbanColumn, Profile, Project, Task } from '../types/domain'
 
 export const profiles: Profile[] = [
   { id: 'u-admin', name: 'Marina Alves', role: 'admin', vertical: 'processos' },
@@ -24,15 +24,26 @@ export const projects: Project[] = [
   { id: 'p-5', client_id: 'c-1', consultant_id: 'u-pes', vertical: 'pessoas', name: 'Trilha de liderança', status: 'em_andamento', start_date: '2026-05-01', end_date: '2026-07-30' },
 ]
 
+export const kanbanColumns: KanbanColumn[] = projects.flatMap((project) =>
+  ['A fazer', 'Em andamento', 'Revisão', 'Concluído'].map((title, index) => ({
+    id: `${project.id}-col-${index + 1}`,
+    project_id: project.id,
+    title,
+    position: index + 1,
+    created_at: '2026-05-01',
+    updated_at: '2026-05-01',
+  })),
+)
+
 export const tasks: Task[] = [
-  { id: 't-1', project_id: 'p-1', title: 'Mapear fluxo de pedidos', description: 'Levantar gargalos entre comercial e operação.', assignee_id: 'u-pro', priority: 'critica', status: 'em_andamento', due_date: '2026-05-12', created_at: '2026-04-20', completed_at: null },
-  { id: 't-2', project_id: 'p-1', title: 'Validar matriz RACI', description: 'Revisar papéis com liderança.', assignee_id: 'u-pro', priority: 'alta', status: 'revisao', due_date: '2026-05-15', created_at: '2026-05-02', completed_at: null },
-  { id: 't-3', project_id: 'p-2', title: 'Importar plano de contas', description: 'Consolidar centros de custo.', assignee_id: 'u-fin', priority: 'alta', status: 'concluido', due_date: '2026-05-10', created_at: '2026-04-25', completed_at: '2026-05-09' },
-  { id: 't-4', project_id: 'p-2', title: 'Modelar indicadores', description: 'Margem, EBITDA, CAC e break-even.', assignee_id: 'u-fin', priority: 'media', status: 'a_fazer', due_date: '2026-05-17', created_at: '2026-05-05', completed_at: null },
-  { id: 't-5', project_id: 'p-3', title: 'Desenhar funil outbound', description: 'Etapas, SLA e gatilhos de follow-up.', assignee_id: 'u-ven', priority: 'media', status: 'a_fazer', due_date: '2026-05-22', created_at: '2026-05-10', completed_at: null },
-  { id: 't-6', project_id: 'p-4', title: 'Auditar aquisição paga', description: 'Revisar contas, UTMs e conversões.', assignee_id: 'u-mar', priority: 'critica', status: 'em_andamento', due_date: '2026-05-14', created_at: '2026-05-01', completed_at: null },
-  { id: 't-7', project_id: 'p-5', title: 'Criar matriz de competências', description: 'Níveis esperados por função.', assignee_id: 'u-pes', priority: 'alta', status: 'revisao', due_date: '2026-05-20', created_at: '2026-05-06', completed_at: null },
-  { id: 't-8', project_id: 'p-4', title: 'Reposicionar mensagens', description: 'Nova narrativa para decisores.', assignee_id: 'u-mar', priority: 'media', status: 'concluido', due_date: '2026-05-08', created_at: '2026-04-28', completed_at: '2026-05-11' },
+  { id: 't-1', project_id: 'p-1', title: 'Mapear fluxo de pedidos', description: 'Levantar gargalos entre comercial e operação.', assignee_id: 'u-pro', priority: 'critica', status: 'em_andamento', column_id: 'p-1-col-2', due_date: '2026-05-12', created_at: '2026-04-20', updated_at: '2026-05-12', completed_at: null },
+  { id: 't-2', project_id: 'p-1', title: 'Validar matriz RACI', description: 'Revisar papéis com liderança.', assignee_id: 'u-pro', priority: 'alta', status: 'revisao', column_id: 'p-1-col-3', due_date: '2026-05-15', created_at: '2026-05-02', updated_at: '2026-05-13', completed_at: null },
+  { id: 't-3', project_id: 'p-2', title: 'Importar plano de contas', description: 'Consolidar centros de custo.', assignee_id: 'u-fin', priority: 'alta', status: 'concluido', column_id: 'p-2-col-4', due_date: '2026-05-10', created_at: '2026-04-25', updated_at: '2026-05-09', completed_at: '2026-05-09' },
+  { id: 't-4', project_id: 'p-2', title: 'Modelar indicadores', description: 'Margem, EBITDA, CAC e break-even.', assignee_id: 'u-fin', priority: 'media', status: 'a_fazer', column_id: 'p-2-col-1', due_date: '2026-05-17', created_at: '2026-05-05', updated_at: '2026-05-05', completed_at: null },
+  { id: 't-5', project_id: 'p-3', title: 'Desenhar funil outbound', description: 'Etapas, SLA e gatilhos de follow-up.', assignee_id: 'u-ven', priority: 'media', status: 'a_fazer', column_id: 'p-3-col-1', due_date: '2026-05-22', created_at: '2026-05-10', updated_at: '2026-05-10', completed_at: null },
+  { id: 't-6', project_id: 'p-4', title: 'Auditar aquisição paga', description: 'Revisar contas, UTMs e conversões.', assignee_id: 'u-mar', priority: 'critica', status: 'em_andamento', column_id: 'p-4-col-2', due_date: '2026-05-14', created_at: '2026-05-01', updated_at: '2026-05-14', completed_at: null },
+  { id: 't-7', project_id: 'p-5', title: 'Criar matriz de competências', description: 'Níveis esperados por função.', assignee_id: 'u-pes', priority: 'alta', status: 'revisao', column_id: 'p-5-col-3', due_date: '2026-05-20', created_at: '2026-05-06', updated_at: '2026-05-12', completed_at: null },
+  { id: 't-8', project_id: 'p-4', title: 'Reposicionar mensagens', description: 'Nova narrativa para decisores.', assignee_id: 'u-mar', priority: 'media', status: 'concluido', column_id: 'p-4-col-4', due_date: '2026-05-08', created_at: '2026-04-28', updated_at: '2026-05-11', completed_at: '2026-05-11' },
 ]
 
 export const checklists: Checklist[] = [

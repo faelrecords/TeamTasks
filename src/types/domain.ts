@@ -32,6 +32,17 @@ export type Project = {
   status: ProjectStatus
   start_date: string
   end_date: string
+  created_at?: string
+  updated_at?: string
+}
+
+export type KanbanColumn = {
+  id: string
+  project_id: string
+  title: string
+  position: number
+  created_at?: string
+  updated_at?: string
 }
 
 export type Task = {
@@ -42,8 +53,10 @@ export type Task = {
   assignee_id: string
   priority: Priority
   status: TaskStatus
+  column_id?: string | null
   due_date: string
   created_at: string
+  updated_at?: string
   completed_at: string | null
 }
 
